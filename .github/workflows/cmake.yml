@@ -197,11 +197,11 @@ jobs:
 
 
     - name: Pack
-        shell: bash
-        working-directory: instdir
-        run: |
-          ls -laR
-          ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
+      shell: bash
+      working-directory: instdir
+      run: |
+        ls -laR
+        ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
 
 
     - name: Upload
