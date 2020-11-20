@@ -205,7 +205,7 @@ jobs:
       working-directory: instdir
       run: |
         ls -laR
-        ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
+        ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} *
 
 
     - name: Upload
