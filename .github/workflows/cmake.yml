@@ -1,23 +1,69 @@
-﻿name: Deploy
-on:
-  push:
-    branches:
-      - master
+﻿name: C/C++ CI
+
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: 
+        - {
+            name: "Windows Latest MSVC",
+            os: windows-latest,
+            artifact: "windows_msvc.7z",
+            build_type: "Release",
+            cc: "cl",
+            cxx: "cl",
+            generators: "Visual Studio 16 2019"
+          }          
+        - {
+            name: "Windows Latest MinGW",
+            os: windows-latest,
+            artifact: "windows_mingw.7z",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++",
+            generators: "Ninja"
+          }
+        - {
+            name: "Ubuntu_Latest_GCC",
+            os: ubuntu-latest,
+            artifact: "ubuntu_gcc.7z",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++",
+            generators: "Ninja"
+          }
+        - {
+            name: "Ubuntu_GCC_9",
+            os: ubuntu-latest,
+            artifact: "ubuntu_gcc9.7z",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++",
+            generators: "Ninja"
+          }
+        - {
+            name: "macOS Latest Clang",
+            os: macos-latest,
+            artifact: "macos_clang.7z",
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++",
+            generators: "Ninja"
+          }
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # get history for commit messages
-      - uses: # some action that creates a build
-      - uses: actions/commit-build-artefacts-action@latest
-        with:
-          source: 'compiled'
-          organisation: example
-          committer_name: Build-Tools
-          committer_email: email@example.com
-        env:
-          API_USERNAME: username
-          API_ACCESS_TOKEN: ${{ secrets.MY_PAT }}
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build project
+      uses: nicledomaS/cmake_build_action@v1
+      with:
+        submodule_update: ON
+        run_tests: OFF
+        unit_test_build: -Dtest=OFF
+    - uses: edgarrc/action-7z@v1.0.4
+      with:
+        args: 7z a -t7z -mx=9 ${{matrix.config.artifact}}.7z .
