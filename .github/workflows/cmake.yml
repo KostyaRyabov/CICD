@@ -1,25 +1,17 @@
-﻿name: Upload Firmware Release Asset
+﻿name: C/C++ CI
 
-on: [push, release]
+on: [push]
 
 jobs:
-  build:
-    name: Upload Firmware Release Asset
+  ubuntu-build:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build with TrueSTUDIO
-        uses: carlalbrecht/atollic-truestudio-action@v1
-        with:
-          project: firmware/*
-          build: .*/Debug
-      - name: Upload firmware release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./firmware/example-project/Debug
-          asset_name: example-project.hex
-          asset_content_type: binary/octet-stream
+    - name: Checkout
+      uses: actions/checkout@v2.0.0
+    - name: Build project
+      uses: nicledomaS/cmake_build_action@v1
+      with:
+        submodule_update: ON
+        run_tests: OFF
+        unit_test_build: -Dtest=OFF
+        create_package: ON
