@@ -4,52 +4,34 @@ on: [push]
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
+    name: ${{ matrix.config.name }}-build
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
         config: 
         - {
-            name: "Windows Latest MSVC",
+            name: "Windows",
             os: windows-latest,
-            artifact: "windows_msvc.7z",
+            artifact: "windows.7z",
             build_type: "Release",
             cc: "cl",
             cxx: "cl",
             generators: "Visual Studio 16 2019"
-          }          
-        - {
-            name: "Windows Latest MinGW",
-            os: windows-latest,
-            artifact: "windows_mingw.7z",
-            build_type: "Release",
-            cc: "gcc",
-            cxx: "g++",
-            generators: "Ninja"
           }
         - {
-            name: "Ubuntu_Latest_GCC",
+            name: "Ubuntu",
             os: ubuntu-latest,
-            artifact: "ubuntu_gcc.7z",
+            artifact: "ubuntu.7z",
             build_type: "Release",
             cc: "gcc",
             cxx: "g++",
             generators: "Ninja"
           }
         - {
-            name: "Ubuntu_GCC_9",
-            os: ubuntu-latest,
-            artifact: "ubuntu_gcc9.7z",
-            build_type: "Release",
-            cc: "gcc",
-            cxx: "g++",
-            generators: "Ninja"
-          }
-        - {
-            name: "macOS Latest Clang",
+            name: "macOS",
             os: macos-latest,
-            artifact: "macos_clang.7z",
+            artifact: "macos.7z",
             build_type: "Release",
             cc: "clang",
             cxx: "clang++",
@@ -57,13 +39,10 @@ jobs:
           }
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.0.0
     - name: Build project
       uses: nicledomaS/cmake_build_action@v1
       with:
         submodule_update: ON
         run_tests: OFF
         unit_test_build: -Dtest=OFF
-    - uses: edgarrc/action-7z@v1.0.4
-      with:
-        args: 7z a -t7z -mx=9 ${{matrix.config.artifact}}.7z .
