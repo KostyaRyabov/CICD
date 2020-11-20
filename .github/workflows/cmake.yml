@@ -46,6 +46,6 @@ jobs:
         submodule_update: ON
         run_tests: OFF
         unit_test_build: -Dtest=OFF
-    - uses: edgarrc/action-7z@v1.0.4
+    - uses: montudor/action-zip@v0.1.1
       with:
-        args: 7z a -t7z -mx=9 ${{matrix.config.artifact}}.7z .
+        args: zip -qq -r ${{matrix.config.artifact}}.zip .
