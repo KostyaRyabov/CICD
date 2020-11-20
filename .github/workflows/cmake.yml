@@ -46,6 +46,5 @@ jobs:
         submodule_update: ON
         run_tests: OFF
         unit_test_build: -Dtest=OFF
-    - uses: montudor/action-zip@v0.1.1
-      with:
-        args: zip -qq -r ${{matrix.config.artifact}}.zip .
+        config: ${{ matrix.config.build_type }}
+        create_package: ON
