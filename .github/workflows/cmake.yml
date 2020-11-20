@@ -1,25 +1,28 @@
-﻿name: C/C++ CI
+﻿name: Upload Firmware Release Asset
 
-on: [push]
+on:
+  release:
+    types:
+      - created
 
 jobs:
-  test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node_version: ['8', '10', '12']
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-
+  build:
+    name: Upload Firmware Release Asset
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node_version }}
-
-    - name: npm install, build and test
-      run: |
-        npm install
-        npm run build --if-present
-#        npm test
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build with TrueSTUDIO
+        uses: carlalbrecht/atollic-truestudio-action@v1
+        with:
+          project: firmware/*
+          build: .*/Debug
+      - name: Upload firmware release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./firmware/example-project/Debug
+          asset_name: example-project.hex
+          asset_content_type: binary/octet-stream
