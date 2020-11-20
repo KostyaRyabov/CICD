@@ -204,6 +204,7 @@ jobs:
       shell: bash
       working-directory: instdir
       run: |
+        message(ls -laR)  
         ls -laR
         ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} ./
 
