@@ -232,15 +232,15 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.zip",
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC",
             os: ubuntu-latest
           }
         - {
-            name: "Windows Latest MinGW", artifact: "Windows-MinGW.zip",
+            name: "Windows Latest MinGW", artifact: "Windows-MinGW",
             os: ubuntu-latest
           }
         - {
-            name: "Ubuntu Latest GCC", artifact: "Linux.zip",
+            name: "Ubuntu Latest GCC", artifact: "Linux",
             os: ubuntu-latest
           }
     needs: build
