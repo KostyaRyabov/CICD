@@ -141,9 +141,9 @@ jobs:
 
     - name: create-7z-action
       uses: DuckSoft/create-7z-action@v1.0
-        with:
-          pathSource: ./
-          pathTarget: ./${{ matrix.config.artifact }}
+      with:
+        pathSource: ./
+        pathTarget: ./${{ matrix.config.artifact }}
     - name: Upload
       uses: actions/upload-artifact@v1
       with:
