@@ -47,4 +47,10 @@ jobs:
         run_tests: OFF
         unit_test_build: -Dtest=OFF
         config: ${{ matrix.config.build_type }}
-        create_package: ON
+    - run: composer install --ansi --no-progress --no-interaction --prefer-dist
+    - uses: montudor/action-zip@v0.1.1
+      with:
+        args: zip -qq -r ${{ matrix.config.artifact }}.zip .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.config.artifact }}.zip
