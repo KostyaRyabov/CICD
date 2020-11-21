@@ -32,11 +32,6 @@ jobs:
             os: ubuntu-latest,
             cc: "gcc", cxx: "g++"
           }
-        - {
-            name: "macOS Latest Clang", artifact: "macOS",
-            os: macos-latest,
-            cc: "clang", cxx: "clang++"
-          }
 
     steps:
     - uses: actions/checkout@v1
@@ -197,7 +192,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v1
       with:
-        path: ./instdir/
+        path: ./instdir/bin/
         name: ${{ matrix.config.artifact }}
 
   release:
@@ -234,19 +229,15 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.7z",
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC",
             os: ubuntu-latest
           }
         - {
-            name: "Windows Latest MinGW", artifact: "Windows-MinGW.7z",
+            name: "Windows Latest MinGW", artifact: "Windows-MinGW",
             os: ubuntu-latest
           }
         - {
-            name: "Ubuntu Latest GCC", artifact: "Linux.7z",
-            os: ubuntu-latest
-          }
-        - {
-            name: "macOS Latest Clang", artifact: "macOS.7z",
+            name: "Ubuntu Latest GCC", artifact: "Linux",
             os: ubuntu-latest
           }
     needs: release
