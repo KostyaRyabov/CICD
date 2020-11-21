@@ -202,7 +202,7 @@ jobs:
 
     steps:
     - name: Extract tag name
-      id: etag
+      id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Create Release
       id: create_release
@@ -210,8 +210,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.etag.outputs.name }}
-        release_name: Release ${{ steps.etag.outputs.name }}
+        tag_name: ${{ steps.get_version.outputs.name }}
+        release_name: Release ${{ steps.get_version.outputs.name }}
         draft: false
         prerelease: false
 
