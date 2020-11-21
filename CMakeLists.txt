@@ -63,3 +63,5 @@ target_link_libraries(unit_tests
 # are made available to CTest.
 include(ParseAndAddCatchTests)
 ParseAndAddCatchTests(unit_tests)
+
+install(TARGETS say_hello)
