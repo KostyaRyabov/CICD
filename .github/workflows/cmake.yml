@@ -202,20 +202,16 @@ jobs:
 
     steps:
     - name: Extract tag name
-      id: tag
-      uses: actions/github-script@0.2.0
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          return context.payload.ref.replace(/\/refs\/tags\//, '');
+      id: etag
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.tag.outputs.result }}
-        release_name: Release ${{ steps.tag.outputs.result }}
+        tag_name: ${{ steps.etag.outputs.name }}
+        release_name: Release ${{ steps.etag.outputs.name }}
         draft: false
         prerelease: false
 
