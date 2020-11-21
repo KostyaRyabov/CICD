@@ -243,7 +243,7 @@ jobs:
             name: "Ubuntu Latest GCC", artifact: "Linux.zip",
             os: ubuntu-latest
           }
-#    needs: release
+    needs: build
 
     steps:
     - name: Get release
