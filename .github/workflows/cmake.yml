@@ -11,7 +11,7 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.tar.xz",
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC.zip",
             os: windows-latest,
             build_type: "Release", cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
@@ -143,7 +143,7 @@ jobs:
     - name: Pack
       uses: montudor/action-zip@v0.1.1
       with:
-          args: zip -qq -r ${{ matrix.config.artifact }}.zip .
+          args: zip -qq -r ${{ matrix.config.artifact }} .
     - name: Upload
       uses: actions/upload-artifact@v1
       with:
@@ -184,7 +184,7 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.tar.xz",
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC.zip",
             os: ubuntu-latest
           }
 #        - {
