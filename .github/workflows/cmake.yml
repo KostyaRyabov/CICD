@@ -204,8 +204,8 @@ jobs:
         run: cmake --install build --prefix instdir --strip
       
       - name: Pack
-        working-directory: instdir
         uses: montudor/action-zip@v0.1.1
+        working-directory: instdir
         with:
           args: zip -qq -r ${{ matrix.config.artifact }}.zip .
       - name: Upload
