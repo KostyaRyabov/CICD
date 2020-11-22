@@ -255,8 +255,6 @@ jobs:
       with:
         name: upload_url
         path: ./
-    - name: SHOW FILES
-      run: ls
     - id: set_upload_url
       run: |
         upload_url=`cat ./upload_url`
